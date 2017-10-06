@@ -1,7 +1,7 @@
 #!/bin/bash
 # ipa-server-addusers.sh
 
-#source /vagrant/scripts/common.sh
+source /vagrant/scripts/common.sh
 
 #
 # NOTA PREVIA GENERAL:
@@ -50,7 +50,16 @@ else
 fi
 # 2) Comprobamos la existencia del dominio IPA (solicitando un tique Kerberos
 #    para admin@ADMON.LAB) y en caso contrario salimos con error.
-#echo ${PASSWD_ADMIN} | kinit "admin@${DOMINIO_KERBEROS}" 2>/dev/null 1>/dev/null
+
+echo ${PASSWD_ADMIN} | kinit "admin@${DOMINIO_KERBEROS}" 2>/dev/null 1>/dev/null
+
+if [[ "$?" == "0" ]]
+then
+	echo 'The domain exists'
+else
+	echo 'The domain does not exist'
+	exit 1
+fi
 
 # 3) Procesamos el fichero CSV:
 #
