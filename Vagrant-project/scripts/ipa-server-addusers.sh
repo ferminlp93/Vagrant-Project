@@ -25,6 +25,7 @@ source /vagrant/scripts/common.sh
 #
 
 
+
 fich_usuarios=$1
 # 0) Comprobación previa de parámetros de entrada obligatorios
 if [[ $fich_usuarios == "" ]]; then
@@ -63,6 +64,19 @@ fi
 
 # 3) Procesamos el fichero CSV:
 #
+oldIFS=$IFS
+IFS=','
+while read f1 f2 f3 f4; do
+    echo "$f1 $f2 $f3 $f4"
+	sudo ipa user-show $f1
+	if [[ "$?" != "0" ]]
+	then
+	echo $f2 | sudo ipa user-add $f1 --first=$f3 --last=$f4 --password
+	fi
+done < $file
+
+IFS=$oldIFS
+
 # Para cada línea:
 #  Comprobamos si el usuario ya existe, mediante la orden
 #     ipa user-show ${login_name} 
