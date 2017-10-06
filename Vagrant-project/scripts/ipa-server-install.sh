@@ -28,12 +28,18 @@ fqdn="${nombre_host}.${DOMINIO}"
 
 # 1) Comprobamos si los paquetes necesarios están instalados, y en caso contrario los instalamos:
 packages="ipa-server bind bind-dyndb-ldap ipa-server-dns"
+function isinstalled {
+  if yum list installed "$@" >/dev/null 2>&1; then
+    true
+  else
+    false
+  fi
+}
 
-#la comproboación no funciona, intenta instalarlo
-if [ $(dpkg-query -W -f='${Status}' $packages 2>/dev/null | grep -c "ok installed") -eq 0 ];
-then
- 	sudo yum -y install $packages;
-fi
+
+if isinstalled $packages; then echo "installed"; else sudo yum -y install $packages; fi
+ 	
+
 
 # 2) Comprobamos si el dominio IPA está creado (solicitando un tique kerberos para
 #    el administrador), y en caso contrario lo creamos:
