@@ -1,0 +1,42 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure(2) do |config|
+
+    config.vm.box = "centos/7"
+
+    config.vm.define "sl1" do |sl1|
+                                            #la ip debería estar en el rango 192.168.100.0
+        sl1.vm.network "private_network", ip: "192.168.200.50", auto_config: true
+
+        sl1.vm.provider "virtualbox" do |v|
+            v.name = "ipa-sl1"
+            v.memory = 2049
+            v.cpus = 2
+            v.gui = false
+        end
+
+        sl1.vm.provision "network-config", type: "shell" do |s|
+	     # Configuración de red del servidor
+	    s.path = "./scripts/network-config.sh"
+        s.args=["ipa-sl1","192.168.200.50","8.8.8.8"]
+        end
+
+        sl1.vm.provision "ipa-server-install", type: "shell" do |s|
+	    # Instalación del servidor IPA
+        s.path = "./scripts/ipa-server-install.sh"
+	    s.args=["ipa-sl1"]
+        end
+
+        sl1.vm.provision "ipa-server-addusers", type: "shell" do |s|
+	    # Añadir usuarios al servidor IPA 
+        s.path = "./scripts/ipa-server-addusers.sh"
+	    s.args=["usuarios.csv"]
+        end
+
+    end
+end
