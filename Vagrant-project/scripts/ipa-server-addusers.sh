@@ -29,25 +29,28 @@ fich_usuarios=$1
 # 0) Comprobación previa de parámetros de entrada obligatorios
 if [[ $fich_usuarios == "" ]]; then
 	echo "Error: falta el nombre del fichero de usuarios"
-    exit 1
+    	exit 1
 fi
 
 # 1) Comprobamos la existencia del fichero de usuarios (relativo al directorio
 #    actual "./scripts/") y en caso contrario salimos con error.
 
 #revisar, en bash funciona... lanzandolo desde vagrant no encuentra el archivo
-file=$fich_usuarios
+
+
+folder="/vagrant/scripts/"
+file=$folder$fich_usuarios
 
 if [ -f "$file" ]
 then
 	echo "$file found."
 else
 	echo "$file not found."
-    exit 1
+    	exit 1
 fi
 # 2) Comprobamos la existencia del dominio IPA (solicitando un tique Kerberos
 #    para admin@ADMON.LAB) y en caso contrario salimos con error.
-echo ${PASSWD_ADMIN} | kinit "admin@${DOMINIO_KERBEROS}" 2>/dev/null 1>/dev/null
+#echo ${PASSWD_ADMIN} | kinit "admin@${DOMINIO_KERBEROS}" 2>/dev/null 1>/dev/null
 
 # 3) Procesamos el fichero CSV:
 #
