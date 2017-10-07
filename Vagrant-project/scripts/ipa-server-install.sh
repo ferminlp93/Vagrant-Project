@@ -20,7 +20,7 @@ source /vagrant/scripts/common.sh
 nombre_host=$1
 # 0) Comprobación previa de parámetros de entrada obligatorios
 if [[ $nombre_host == "" ]]; then
-	echo "Error: falta el nombre del host"
+	echo "Error: host name is missing"
     exit 1
 fi
 
@@ -29,7 +29,7 @@ fqdn="${nombre_host}.${DOMINIO}"
 # 1) Comprobamos si los paquetes necesarios están instalados, y en caso contrario los instalamos:
 packages="ipa-server bind bind-dyndb-ldap ipa-server-dns"
 
-if isinstalled $packages; then echo "installed"; else sudo yum -y install $packages; fi
+if isinstalled $packages; then echo "$packages are already installed"; else sudo yum -y install $packages; fi
  	
 
 

@@ -29,15 +29,15 @@ IP_DNS=$3
 
 # 0) Comprobación previa de parámetros de entrada obligatorios
 if [[ $nombre_host == "" ]]; then
-	echo "Error: falta el nombre del host"
+	echo "Error: Expected parameter 'host_name'"
     exit 1
 fi
 if [[ $IP_host == "" ]]; then
-    echo "Error: falta la ip del host"
+    echo "Error: Expected parameter 'IP_host'"
     exit 1
 fi
 if [[ $IP_DNS == "" ]]; then
-    echo "Error: falta el DNS"
+    echo "Error: Expected parameter 'IP_DNS'"
     exit 1
 fi
 
