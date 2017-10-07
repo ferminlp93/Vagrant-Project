@@ -41,6 +41,7 @@ fi
 
 folder="/vagrant/scripts/"
 file=$folder$fich_usuarios
+file1=$folder$fich_usuarios'1'
 
 if [ -f "$file" ]
 then
@@ -64,16 +65,20 @@ fi
 
 # 3) Procesamos el fichero CSV:
 #
+
+grep -v "^$" $file >> $file1
+
 oldIFS=$IFS
 IFS=','
 while read f1 f2 f3 f4; do
-    echo "$f1 $f2 $f3 $f4"
-	sudo ipa user-show $f1
+	sudo ipa user-show $f1 2>/dev/null 1>/dev/null
 	if [[ "$?" != "0" ]]
 	then
 	echo $f2 | sudo ipa user-add $f1 --first=$f3 --last=$f4 --password
+	else
+	echo 'User '$f1' already exists!'
 	fi
-done < $file
+done < $file1
 
 IFS=$oldIFS
 

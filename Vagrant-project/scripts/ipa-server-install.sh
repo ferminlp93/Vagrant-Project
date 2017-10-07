@@ -28,14 +28,6 @@ fqdn="${nombre_host}.${DOMINIO}"
 
 # 1) Comprobamos si los paquetes necesarios están instalados, y en caso contrario los instalamos:
 packages="ipa-server bind bind-dyndb-ldap ipa-server-dns"
-function isinstalled {
-  if yum list installed "$@" >/dev/null 2>&1; then
-    true
-  else
-    false
-  fi
-}
-
 
 if isinstalled $packages; then echo "installed"; else sudo yum -y install $packages; fi
  	
