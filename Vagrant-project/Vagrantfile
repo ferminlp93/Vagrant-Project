@@ -39,4 +39,26 @@ Vagrant.configure(2) do |config|
         end
 
     end
+
+    config.vm.define "cl1" do |cli|
+    	cli.vm.network "private_network", ip: "192.168.200.51", auto_config: true
+
+    	cli.vm.provider "virtualbox" do |v|
+    		v.name = "ipa-cl1"
+    		v.memory = 512
+    		v.cpus = 1
+    		v.gui = false
+   	end
+
+	cli.vm.provision "network-config", type: "shell" do |s|
+	# Configuración de red del cliente 
+	s.path = "./scripts/network-config.sh"
+        s.args=["ipa-cl1","192.168.200.51","192.168.200.50"]
+       end
+	cli.vm.provision "ipa-client-install", type: "shell" do |s|
+	# Instalación del cliente IPA
+	s.path = "./scripts/ipa-client-install.sh"
+       end
+
+    end
 end
