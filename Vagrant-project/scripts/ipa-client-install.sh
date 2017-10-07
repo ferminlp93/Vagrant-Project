@@ -22,8 +22,19 @@ packages="ipa-client"
 if isinstalled $packages; then echo "installed"; else sudo yum -y install $packages; fi
 
 # 2) Comprobamos si el sistema ya es miembro del dominio IPA (mirando si existe
-#   el fichero /etc/ipa/default.com), y en caso contrario lo añadimos al dominio: 
-echo ${PASSWD_ADMIN} | kinit "admin@${DOMINIO_KERBEROS}" 2>/dev/null 1>/dev/null
+#   el fichero /etc/ipa/default.com), y en caso contrario lo añadimos al dominio:
+
+folderfile="/etc/ipa/default.conf"
+
+
+if [ -f "$folderfile" ]
+then
+	echo "$folderfile found."
+else
+	echo "$folderfile not found."
+	ipa-client-install --principal "admin@${DOMINIO_KERBEROS}" --password=${PASSWD_ADMIN} --enable-dns-update --mkhomedir --unattended
+fi 
+
 
 #if... Existe el fichero /etc/ipa/default.conf 
 #then
