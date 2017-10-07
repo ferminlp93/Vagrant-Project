@@ -8,6 +8,7 @@ DOMINIO_KERBEROS='ADMON.LAB'
 
 PASSWD_ADMIN='Virtual2016'
 
+#Funcion de comprobación de fichero instalado
 function isinstalled {
   if yum list installed "$@" >/dev/null 2>&1; then
     true
