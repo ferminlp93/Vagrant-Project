@@ -1,7 +1,7 @@
 # Vagrant-Project
-Virtualization project of an IPA server with several clients made with VAGRANT 
+Proyecto de virtualización de un servidor IPA con VAGRANT 
 
-Ejecutar "vagrant up" para crear un dominio IPA. Por defecto, este dominio se generará con 1 servidor y 1 cliente.
+Ejecutar "vagrant up" para crear un dominio IPA. Por defecto, este dominio se generará con 1 servidor y 2 clientes.
 
 Para crear N clientes se puede hacer uso de la variable MaxClientes, al principio del vagrant file.
 
