@@ -13,7 +13,7 @@ MaxClientes = 2
 #Comprobamos que la memoria del propietario es suficiente para ejecutar el proyecto
 #Con los parámetros dados (ram clientes y ram servidor)
 #Se le resta 512 de ram al propietario para tener un margen de seguridad
-RamPropietary = Integer(%x( grep -i memtotal /proc/meminfo | tr -dc '0-9' ))-512
+RamPropietary = Integer((%x( grep -i memtotal /proc/meminfo | tr -dc '0-9' ))-512)/1024
 RamExecution=2048+(512*MaxClientes)
 
 if RamExecution >=RamPropietary
