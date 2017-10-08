@@ -13,23 +13,18 @@ MaxClientes = 2
 #Comprobamos que la memoria del propietario es suficiente para ejecutar el proyecto
 #Con los parámetros dados (ram clientes y ram servidor)
 #Se le resta 512 de ram al propietario para tener un margen de seguridad
-RamPropietary = Integer((%x( grep -i memtotal /proc/meminfo | tr -dc '0-9' ))-512)/1024
+RamPropietary = ((Integer(%x( grep -i memtotal /proc/meminfo | tr -dc '0-9')))/1024)-512
+
 RamExecution=2048+(512*MaxClientes)
 
 if RamExecution >=RamPropietary
-    puts ('Error: your RAM is '+String(RamPropietary)+ 'MB and the one you need to run is ' +String(RamExecution)+'MB')
+    puts ('Error: your RAM is '+String(RamPropietary)+'MB and the one you need to run is '+String(RamExecution)+'MB')
     puts ('We advise you to decrease the number of clients, or decrease the number of clients')
     abort("Try again with the above. Bye")
 end
 
 
 #Vagrant
-Vagrant.configure("2") do |config|
-  config.vm.provision "shell",
-    inline: "grep -i memtotal /proc/meminfo"
-end
-
-
 Vagrant.configure(2) do |config|
 
 
