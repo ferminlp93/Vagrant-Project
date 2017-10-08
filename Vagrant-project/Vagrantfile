@@ -17,7 +17,7 @@ RamPropietary = Integer((%x( grep -i memtotal /proc/meminfo | tr -dc '0-9' ))-51
 RamExecution=2048+(512*MaxClientes)
 
 if RamExecution >=RamPropietary
-    puts ('Error: your RAM is '+String(RamPropietary)+ ' and the one you need to run is ' +String(RamExecution))
+    puts ('Error: your RAM is '+String(RamPropietary)+ 'MB and the one you need to run is ' +String(RamExecution)+'MB')
     puts ('We advise you to decrease the number of clients, or decrease the number of clients')
     abort("Try again with the above. Bye")
 end
